@@ -9,24 +9,40 @@ class Booking extends Model
 {
     protected $fillable = [
         'invoice_number',
-        'attire_name',
+        'customer_id',
         'phone_number',
         'notes',
         'accessories',
         'payment_status',
-        'payment_amount',
-        'balance',
+        'total_amount',
+        'deposit_amount',
+        'remaining_balance',
         'category_id',
         'booking_date',
+        'return_date',
         'time_slot_id',
         'user_id',
     ];
 
+    public function customer()
+    {
+        return $this->belongsTo(Customer::class);
+    }
+
     protected $casts = [
         'booking_date' => 'date',
-        'payment_amount' => 'decimal:2',
-        'balance' => 'decimal:2',
+        'return_date' => 'date',
+        'total_amount' => 'decimal:2',
+        'deposit_amount' => 'decimal:2',
+        'remaining_balance' => 'decimal:2',
     ];
+
+    public function items(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Item::class)
+            ->withPivot('price_at_booking')
+            ->withTimestamps();
+    }
 
     public function category(): BelongsTo
     {

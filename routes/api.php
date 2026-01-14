@@ -4,7 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TimeSlotController;
 use App\Http\Controllers\UserController;
@@ -59,6 +61,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/reports/bookings', [ReportController::class, 'bookings']);
     Route::get('/reports/category-wise', [ReportController::class, 'categoryWise']);
     Route::get('/reports/revenue', [ReportController::class, 'revenue']);
+
+    // Items
+    Route::get('/items', [ItemController::class, 'index']);
+    Route::post('/items', [ItemController::class, 'store']);
+    Route::get('/items/{id}', [ItemController::class, 'show']);
+    Route::put('/items/{id}', [ItemController::class, 'update']);
+    Route::delete('/items/{id}', [ItemController::class, 'destroy']);
+
+    // Customers
+    Route::apiResource('customers', CustomerController::class);
 
     // Bookings
     Route::get('/bookings', [BookingController::class, 'index']);
